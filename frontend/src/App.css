@@ -1,0 +1,231 @@
+/* Global styles for the CrUX Performance Analyzer */
+
+.App {
+  text-align: center;
+}
+
+/* Custom scrollbar for better UX */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.loading-pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Custom table styles */
+.performance-table {
+  overflow-x: auto;
+}
+
+.performance-table .MuiTableCell-root {
+  padding: 8px 16px;
+}
+
+.performance-table .MuiTableHead-root .MuiTableCell-root {
+  font-weight: 600;
+  background-color: #f5f5f5;
+}
+
+/* Metric chip styles */
+.metric-chip {
+  transition: all 0.2s ease-in-out;
+}
+
+.metric-chip:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive design helpers */
+@media (max-width: 768px) {
+  .performance-table {
+    font-size: 0.875rem;
+  }
+  
+  .performance-table .MuiTableCell-root {
+    padding: 4px 8px;
+  }
+}
+
+/* Custom card hover effects */
+.card-hover {
+  transition: all 0.3s ease-in-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Custom button styles */
+.gradient-button {
+  background: linear-gradient(45deg, #1976d2 30%, #42a5f5 90%);
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 3px 5px 2px rgba(25, 118, 210, .3);
+  color: white;
+  height: 48px;
+  padding: 0 30px;
+}
+
+.gradient-button:hover {
+  background: linear-gradient(45deg, #1565c0 30%, #1976d2 90%);
+}
+
+/* Custom input focus styles */
+.focused-input .MuiOutlinedInput-root {
+  border-radius: 8px;
+}
+
+.focused-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-width: 2px;
+}
+
+/* Custom tab styles */
+.custom-tab {
+  text-transform: none;
+  font-weight: 500;
+  min-height: 48px;
+}
+
+/* Custom alert styles */
+.custom-alert {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Custom chip styles */
+.custom-chip {
+  border-radius: 16px;
+  font-weight: 500;
+}
+
+/* Custom paper styles */
+.custom-paper {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Animation for table rows */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.table-row-enter {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Custom loading spinner */
+.custom-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #1976d2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Custom tooltip styles */
+.custom-tooltip {
+  font-size: 0.875rem;
+  max-width: 300px;
+}
+
+/* Custom divider styles */
+.custom-divider {
+  margin: 16px 0;
+  background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+  height: 1px;
+  border: none;
+}
+
+/* Custom grid spacing */
+.custom-grid {
+  margin: -8px;
+}
+
+.custom-grid > * {
+  padding: 8px;
+}
+
+/* Custom typography */
+.gradient-text {
+  background: linear-gradient(45deg, #1976d2, #42a5f5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Custom elevation shadows */
+.elevation-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.elevation-2 {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.elevation-3 {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+/* Custom focus styles */
+.focus-visible:focus {
+  outline: 2px solid #1976d2;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .performance-table {
+    font-size: 12px;
+  }
+  
+  .performance-table .MuiTableCell-root {
+    padding: 4px;
+  }
+}
