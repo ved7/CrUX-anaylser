@@ -3,7 +3,7 @@
 A simple web app to analyze website performance using Google Chrome UX Report data. Built with React and Node.js.
 
 # Start Backend
-cd backend && PORT=5001 node server.js, add .env file, copy content from .envexample file and replace the google_api_key with the actual key.
+cd backend && PORT=5001 node server.js, add .env file, copy content from .env_example file and replace the GOOGLE_API_KEY with the actual key.
 
 # Start Frontend  
 cd frontend && npm start
