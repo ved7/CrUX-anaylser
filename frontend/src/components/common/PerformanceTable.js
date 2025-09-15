@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { METRIC_DEFINITIONS } from '../../constants/metrics';
 
-function PerformanceTable({ data, showSummary = true, title = "Performance Metrics" }) {
+function PerformanceTable({ data, showSummary = true, title = 'Performance Metrics' }) {
   if (!data || data.length === 0) {
     return (
       <Paper sx={{ p: 3, textAlign: 'center' }}>
@@ -29,7 +29,7 @@ function PerformanceTable({ data, showSummary = true, title = "Performance Metri
     const config = METRIC_DEFINITIONS[metricName];
     const p75 = metric.p75;
     const p95 = metric.p95;
-    const goodPercentage = metric.histogram?.[0]?.density ? 
+    const goodPercentage = metric.histogram?.[0]?.density ?
       Math.round(metric.histogram[0].density * 100) : null;
 
     const getScoreColor = (value) => {
@@ -70,7 +70,7 @@ function PerformanceTable({ data, showSummary = true, title = "Performance Metri
       const values = data
         .map(item => item.processedMetrics?.[metricName]?.p75)
         .filter(val => val !== null && val !== undefined);
-      
+
       if (values.length > 0) {
         summary[metricName] = {
           average: Math.round(values.reduce((a, b) => a + b, 0) / values.length),
@@ -114,7 +114,7 @@ function PerformanceTable({ data, showSummary = true, title = "Performance Metri
                     {item.originalUrl || item.url}
                   </Typography>
                   {item.isMockData && (
-                    <Chip label="Demo Data" size="small" color="info" variant="outlined" />
+                    <Chip label="Demo data, Configure API key for real data" size="small" color="info" variant="outlined" />
                   )}
                 </Box>
               </TableCell>
@@ -125,7 +125,7 @@ function PerformanceTable({ data, showSummary = true, title = "Performance Metri
               ))}
             </TableRow>
           ))}
-          
+
           {summary && (
             <TableRow sx={{ backgroundColor: 'grey.50' }}>
               <TableCell>

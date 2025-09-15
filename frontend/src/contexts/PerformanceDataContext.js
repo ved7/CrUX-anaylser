@@ -1,7 +1,17 @@
-import { useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 import { fetchSingleUrlData, fetchMultipleUrlData } from '../services/api';
 
+const PerformanceDataContext = createContext();
+
 export function usePerformanceData() {
+  const context = useContext(PerformanceDataContext);
+  if (!context) {
+    throw new Error('usePerformanceData must be used within a PerformanceDataProvider');
+  }
+  return context;
+}
+
+export function PerformanceDataProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
@@ -9,7 +19,7 @@ export function usePerformanceData() {
   const analyzeSingleUrl = useCallback(async (url) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const result = await fetchSingleUrlData(url);
       setData(result);
@@ -26,7 +36,7 @@ export function usePerformanceData() {
   const analyzeMultipleUrls = useCallback(async (urls) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const result = await fetchMultipleUrlData(urls);
       setData(result);
@@ -49,7 +59,7 @@ export function usePerformanceData() {
     setError(null);
   }, []);
 
-  return {
+  const value = {
     loading,
     error,
     data,
@@ -58,4 +68,10 @@ export function usePerformanceData() {
     clearData,
     clearError
   };
+
+  return (
+    <PerformanceDataContext.Provider value={value}>
+      {children}
+    </PerformanceDataContext.Provider>
+  );
 }

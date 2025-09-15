@@ -6,14 +6,13 @@ import {
   Typography,
   Card,
   CardContent,
-  Chip,
   Alert,
   Snackbar,
   Grid,
   Paper
 } from '@mui/material';
 import { Search as SearchIcon, Download as DownloadIcon } from '@mui/icons-material';
-import { usePerformanceData } from '../../hooks/usePerformanceData';
+import { usePerformanceData } from '../../contexts/PerformanceDataContext';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import { isValidUrl, formatUrlForApi } from '../../utils/urlUtils';
 import { exportToCSV, exportToJSON, exportToTextReport } from '../../utils/exportUtils';
@@ -28,7 +27,7 @@ function MultipleUrlAnalyzer() {
 
   const handleAnalyze = async () => {
     if (!urls.trim()) return;
-    
+
     const urlList = urls.split('\n')
       .map(url => url.trim())
       .filter(url => url.length > 0);
@@ -52,7 +51,7 @@ function MultipleUrlAnalyzer() {
     try {
       const formattedUrls = urlList.map(formatUrlForApi);
       const result = await analyzeMultipleUrls(formattedUrls);
-      
+
       if (result.results.some(r => r.isMockData)) {
         showInfo('Using demo data for some URLs. Configure API key for live data.');
       }
@@ -86,11 +85,11 @@ function MultipleUrlAnalyzer() {
 
   const getSummaryStats = () => {
     if (!data?.results) return null;
-    
+
     const successful = data.results.filter(r => r.success);
     const failed = data.results.filter(r => !r.success);
     const mockData = data.results.filter(r => r.isMockData);
-    
+
     return { successful, failed, mockData };
   };
 
@@ -106,7 +105,7 @@ function MultipleUrlAnalyzer() {
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
             Enter multiple URLs (one per line) to compare their performance
           </Typography>
-          
+
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <TextField
               multiline
@@ -131,7 +130,7 @@ function MultipleUrlAnalyzer() {
 
           <Alert severity="info" sx={{ mt: 2 }}>
             <Typography variant="body2">
-              <strong>Note:</strong> Enter one URL per line. Maximum 10 URLs per analysis. 
+              <strong>Note:</strong> Enter one URL per line. Maximum 10 URLs per analysis.
               Some URLs may not have performance data available.
             </Typography>
           </Alert>
@@ -172,7 +171,7 @@ function MultipleUrlAnalyzer() {
                     {summaryStats.mockData.length}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Demo Data
+                    Demo data, Configure API key for real data
                   </Typography>
                 </Paper>
               </Grid>
@@ -207,8 +206,8 @@ function MultipleUrlAnalyzer() {
           </Box>
 
           {data.results && (
-            <PerformanceTable 
-              data={data.results} 
+            <PerformanceTable
+              data={data.results}
               showSummary={true}
               title="Performance Comparison"
             />

@@ -10,7 +10,7 @@ describe('Performance Score Calculation', () => {
     };
 
     const result = calculatePerformanceScore(metrics);
-    
+
     expect(result.score).toBe(100);
     expect(result.grade).toBe('A');
     expect(result.recommendations).toHaveLength(0);
@@ -25,7 +25,7 @@ describe('Performance Score Calculation', () => {
     };
 
     const result = calculatePerformanceScore(metrics);
-    
+
     expect(result.score).toBeLessThan(50);
     expect(result.grade).toBe('F');
     expect(result.recommendations.length).toBeGreaterThan(0);
@@ -37,14 +37,14 @@ describe('Performance Score Calculation', () => {
     };
 
     const result = calculatePerformanceScore(metrics);
-    
+
     expect(result.score).toBeGreaterThan(0);
     expect(result.breakdown).toHaveProperty('largest_contentful_paint');
   });
 
   test('handles null metrics', () => {
     const result = calculatePerformanceScore(null);
-    
+
     expect(result.score).toBe(0);
     expect(result.grade).toBe('F');
   });
@@ -58,7 +58,7 @@ describe('Performance Score Calculation', () => {
     };
 
     const result = calculatePerformanceScore(metrics);
-    
+
     expect(result.recommendations.length).toBeGreaterThan(0);
     expect(result.recommendations[0].priority).toBe('high');
     expect(result.recommendations[0].metric).toBe('largest_contentful_paint');

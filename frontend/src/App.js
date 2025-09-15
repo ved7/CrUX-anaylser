@@ -16,7 +16,7 @@ import theme from './constants/theme';
 import SingleUrlAnalyzer from './components/analyzers/SingleUrlAnalyzer';
 import MultipleUrlAnalyzer from './components/analyzers/MultipleUrlAnalyzer';
 import InsightsPanel from './components/analyzers/InsightsPanel';
-import { usePerformanceData } from './hooks/usePerformanceData';
+import { PerformanceDataProvider, usePerformanceData } from './contexts/PerformanceDataContext';
 
 function TabPanel({ children, value, index, ...other }) {
   return (
@@ -32,7 +32,7 @@ function TabPanel({ children, value, index, ...other }) {
   );
 }
 
-function App() {
+function AppContent() {
   const [activeTab, setActiveTab] = useState(0);
   const { data } = usePerformanceData();
 
@@ -45,6 +45,26 @@ function App() {
       return data ? [data] : [];
     } else if (activeTab === 1) {
       return data?.results || [];
+    } else if (activeTab === 2) {
+      // For Insights tab, return all available data
+      const allData = [];
+      if (data) {
+        // Check if it's single URL data (has processedMetrics directly) or multiple URL data (has results array)
+        if (data.processedMetrics) {
+          // Single URL data - wrap it in the expected format
+          allData.push({
+            success: true,
+            url: data.url,
+            originalUrl: data.originalUrl,
+            processedMetrics: data.processedMetrics,
+            isMockData: data.isMockData
+          });
+        } else if (data.results) {
+          // Multiple URL data - use results directly
+          allData.push(...data.results);
+        }
+      }
+      return allData;
     }
     return [];
   };
@@ -56,11 +76,11 @@ function App() {
         <Toolbar>
           <SpeedIcon sx={{ mr: 2 }} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Performance Analytics
+            CrUX Performance Analytics
           </Typography>
-          <Chip 
-            label="Live Data" 
-            color="success" 
+          <Chip
+            label="Live Data"
+            color="success"
             size="small"
             variant="outlined"
             sx={{ ml: 2 }}
@@ -71,21 +91,21 @@ function App() {
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
           <Tabs value={activeTab} onChange={handleTabChange} aria-label="analysis tabs">
-            <Tab 
-              icon={<SpeedIcon />} 
-              label="Single URL" 
+            <Tab
+              icon={<SpeedIcon />}
+              label="Single URL"
               id="tab-0"
               aria-controls="tabpanel-0"
             />
-            <Tab 
-              icon={<AssessmentIcon />} 
-              label="Multiple URLs" 
+            <Tab
+              icon={<AssessmentIcon />}
+              label="Multiple URLs"
               id="tab-1"
               aria-controls="tabpanel-1"
             />
-            <Tab 
-              icon={<InsightsIcon />} 
-              label="Insights" 
+            <Tab
+              icon={<InsightsIcon />}
+              label="Insights"
               id="tab-2"
               aria-controls="tabpanel-2"
             />
@@ -105,6 +125,14 @@ function App() {
         </TabPanel>
       </Container>
     </ThemeProvider>
+  );
+}
+
+function App() {
+  return (
+    <PerformanceDataProvider>
+      <AppContent />
+    </PerformanceDataProvider>
   );
 }
 

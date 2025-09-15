@@ -32,7 +32,7 @@ function calculateMetricScore(metricName, value, config) {
   if (value === null || value === undefined) return 0;
 
   const { threshold } = config;
-  
+
   if (value <= threshold.good) {
     return 100;
   } else if (value <= threshold.needsImprovement) {
@@ -53,7 +53,7 @@ function getPerformanceGrade(score) {
 
 function generateRecommendations(scores, metrics) {
   const recommendations = [];
-  
+
   Object.entries(scores).forEach(([metricName, score]) => {
     if (score < 70) {
       const metric = metrics[metricName];
@@ -75,6 +75,6 @@ function getRecommendationMessage(metricName, value, score) {
   const config = METRIC_DEFINITIONS[metricName];
   const priority = score < 50 ? 'high' : score < 70 ? 'medium' : 'low';
   const recommendation = RECOMMENDATIONS[metricName][priority];
-  
+
   return `${config.name} of ${value}${config.unit} is ${priority}. ${recommendation}`;
 }

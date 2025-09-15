@@ -22,7 +22,7 @@ export function exportToCSV(data, filename = 'performance-data.csv') {
     ...data.map(item => {
       const metrics = item.processedMetrics || {};
       return [
-        `"${item.url || item.originalUrl}"`,
+        `'${item.url || item.originalUrl}'`,
         metrics.largest_contentful_paint?.p75 || 'N/A',
         metrics.cumulative_layout_shift?.p75 || 'N/A',
         metrics.first_contentful_paint?.p75 || 'N/A',
@@ -69,7 +69,7 @@ export function exportToTextReport(data, filename = 'performance-report.txt') {
     'PERFORMANCE ANALYSIS REPORT',
     '============================',
     `Generated: ${new Date().toLocaleString()}`,
-    `Data Source: Google Chrome UX Report`,
+    'Data Source: Google Chrome UX Report',
     `Total URLs Analyzed: ${data.length}`,
     '',
     'DETAILED RESULTS',
@@ -80,8 +80,8 @@ export function exportToTextReport(data, filename = 'performance-report.txt') {
   data.forEach((item, index) => {
     const metrics = item.processedMetrics || {};
     report.push(`${index + 1}. ${item.url || item.originalUrl}`);
-    report.push('   ' + '='.repeat(50));
-    
+    report.push(`   ${'='.repeat(50)}`);
+
     if (metrics.largest_contentful_paint) {
       report.push(`   LCP: ${metrics.largest_contentful_paint.p75}ms (95th: ${metrics.largest_contentful_paint.p95 || 'N/A'}ms)`);
     }
@@ -94,7 +94,7 @@ export function exportToTextReport(data, filename = 'performance-report.txt') {
     if (metrics.interaction_to_next_paint) {
       report.push(`   INP: ${metrics.interaction_to_next_paint.p75}ms (95th: ${metrics.interaction_to_next_paint.p95 || 'N/A'}ms)`);
     }
-    
+
     report.push('');
   });
 

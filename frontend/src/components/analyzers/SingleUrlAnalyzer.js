@@ -10,8 +10,8 @@ import {
   Alert,
   Snackbar
 } from '@mui/material';
-import { Search as SearchIcon, Refresh as RefreshIcon, Download as DownloadIcon } from '@mui/icons-material';
-import { usePerformanceData } from '../../hooks/usePerformanceData';
+import { Search as SearchIcon, Download as DownloadIcon } from '@mui/icons-material';
+import { usePerformanceData } from '../../contexts/PerformanceDataContext';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import { isValidUrl, formatUrlForApi } from '../../utils/urlUtils';
 import { exportToCSV, exportToJSON } from '../../utils/exportUtils';
@@ -27,7 +27,7 @@ function SingleUrlAnalyzer() {
 
   const handleAnalyze = async () => {
     if (!url.trim()) return;
-    
+
     if (!isValidUrl(url)) {
       showInfo('Please enter a valid URL');
       return;
@@ -36,7 +36,7 @@ function SingleUrlAnalyzer() {
     try {
       const formattedUrl = formatUrlForApi(url);
       const result = await analyzeSingleUrl(formattedUrl);
-      
+
       if (result.isMockData) {
         showInfo('Using demo data. Configure API key for live data.');
       }
@@ -72,7 +72,7 @@ function SingleUrlAnalyzer() {
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
             Enter a URL to analyze its performance metrics
           </Typography>
-          
+
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
             <TextField
               fullWidth
@@ -98,8 +98,7 @@ function SingleUrlAnalyzer() {
 
           <Alert severity="info" sx={{ mt: 2 }}>
             <Typography variant="body2">
-              <strong>Note:</strong> Some URLs may not have performance data available. 
-              Try popular websites like google.com, facebook.com, or amazon.com for better results.
+              <strong>Note:</strong> Some URLs may not have performance data available. Try some popular website like google.com.
             </Typography>
           </Alert>
         </CardContent>
@@ -115,9 +114,9 @@ function SingleUrlAnalyzer() {
             <Typography variant="h6" fontWeight={600}>
               {data.originalUrl}
             </Typography>
-            <Chip 
-              label={data.isMockData ? "Demo Data" : "Live Data"} 
-              color={data.isMockData ? "info" : "success"} 
+            <Chip
+              label={data.isMockData ? 'Demo data, Configure API key for real data' : 'Live Data'}
+              color={data.isMockData ? 'info' : 'success'}
               size="small"
               variant="outlined"
             />
@@ -141,15 +140,15 @@ function SingleUrlAnalyzer() {
           </Box>
 
           {data.processedMetrics && (
-            <PerformanceScore 
+            <PerformanceScore
               metrics={data.processedMetrics}
               url={data.originalUrl}
             />
           )}
 
           {data.processedMetrics && (
-            <PerformanceTable 
-              data={[data]} 
+            <PerformanceTable
+              data={[data]}
               showSummary={false}
               title=""
             />

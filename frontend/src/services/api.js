@@ -6,8 +6,8 @@ const api = axios.create({
   baseURL: API_BASE_URL,
   timeout: 30000,
   headers: {
-    'Content-Type': 'application/json',
-  },
+    'Content-Type': 'application/json'
+  }
 });
 
 api.interceptors.request.use(
@@ -33,30 +33,18 @@ api.interceptors.response.use(
 );
 
 export const fetchSingleUrlData = async (url) => {
-  try {
-    const response = await api.post('/single', { url });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await api.post('/single', { url });
+  return response.data;
 };
 
 export const fetchMultipleUrlData = async (urls) => {
-  try {
-    const response = await api.post('/multiple', { urls });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await api.post('/multiple', { urls });
+  return response.data;
 };
 
 export const healthCheck = async () => {
-  try {
-    const response = await api.get('/health');
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await api.get('/health');
+  return response.data;
 };
 
 export default api;

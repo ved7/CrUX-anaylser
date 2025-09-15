@@ -13,17 +13,40 @@ import {
   Grid
 } from '@mui/material';
 import {
-  Speed as SpeedIcon,
   Warning as WarningIcon,
-  CheckCircle as CheckCircleIcon,
   TrendingUp as TrendingUpIcon
 } from '@mui/icons-material';
 import { calculatePerformanceScore } from '../../utils/performanceScore';
 import { METRIC_DEFINITIONS } from '../../constants/metrics';
 
 function InsightsPanel({ data }) {
+  const getRecommendation = (metricName, priority) => {
+    const recommendations = {
+      largest_contentful_paint: {
+        high: 'TODO: Add detailed strategies (e.g., advanced image optimization, smarter preloading, server-side tuning).',
+        medium: 'TODO: Suggest progressive enhancements for images and server response improvements.'
+      },
+      cumulative_layout_shift: {
+        high: 'TODO: Expand guidance for handling layout shifts (define dimensions, better skeleton loading).',
+        medium: 'TODO: Add recommendations for managing dynamic content and preventing late shifts.'
+      },
+      first_contentful_paint: {
+        high: 'TODO: Flesh out strategies for critical rendering path optimization and async resource handling.',
+        medium: 'TODO: Provide incremental improvements for CSS/JS delivery and early render speed.'
+      },
+      interaction_to_next_paint: {
+        high: 'TODO: Add deeper insights into reducing main-thread blocking and optimizing long tasks.',
+        medium: 'TODO: Suggest phased JS improvements (code splitting, lazy loading, bundling refinements).'
+      }
+    };
+
+    return recommendations[metricName]?.[priority] || 'Review and optimize this metric.';
+  };
+
   const insights = useMemo(() => {
-    if (!data || !Array.isArray(data)) return null;
+    if (!data || !Array.isArray(data)) {
+      return null;
+    }
 
     const successfulData = data.filter(item => item.success && item.processedMetrics);
     if (successfulData.length === 0) return null;
@@ -33,7 +56,7 @@ function InsightsPanel({ data }) {
       const values = successfulData
         .map(item => item.processedMetrics[metricName]?.p75)
         .filter(val => val !== null && val !== undefined);
-      
+
       if (values.length > 0) {
         allMetrics[metricName] = {
           average: values.reduce((a, b) => a + b, 0) / values.length,
@@ -49,10 +72,10 @@ function InsightsPanel({ data }) {
       score: calculatePerformanceScore(item.processedMetrics)
     }));
 
-    const bestPerformer = scores.reduce((best, current) => 
+    const bestPerformer = scores.reduce((best, current) =>
       current.score.score > best.score.score ? current : best
     );
-    const worstPerformer = scores.reduce((worst, current) => 
+    const worstPerformer = scores.reduce((worst, current) =>
       current.score.score < worst.score.score ? current : worst
     );
 
@@ -62,7 +85,7 @@ function InsightsPanel({ data }) {
     Object.entries(allMetrics).forEach(([metricName, metric]) => {
       const config = METRIC_DEFINITIONS[metricName];
       const threshold = config.threshold;
-      
+
       if (metric.average > threshold.needsImprovement) {
         recommendations.push({
           metric: metricName,
@@ -86,32 +109,9 @@ function InsightsPanel({ data }) {
       bestPerformer,
       worstPerformer,
       averageScore: Math.round(averageScore),
-      recommendations: recommendations.sort((a, b) => a.priority === 'high' ? -1 : 1)
+      recommendations: recommendations.sort((a) => a.priority === 'high' ? -1 : 1)
     };
   }, [data]);
-
-  const getRecommendation = (metricName, priority) => {
-    const recommendations = {
-      largest_contentful_paint: {
-        high: 'Optimize images, preload critical resources, and improve server response time.',
-        medium: 'Consider optimizing images and reducing server response time.'
-      },
-      cumulative_layout_shift: {
-        high: 'Set explicit dimensions for images and avoid inserting content above existing content.',
-        medium: 'Review layout shifts and set explicit dimensions for dynamic content.'
-      },
-      first_contentful_paint: {
-        high: 'Optimize critical rendering path and minimize render-blocking resources.',
-        medium: 'Consider reducing render-blocking resources and optimizing CSS.'
-      },
-      interaction_to_next_paint: {
-        high: 'Reduce main thread blocking time and optimize JavaScript execution.',
-        medium: 'Consider code splitting and optimizing JavaScript performance.'
-      }
-    };
-    
-    return recommendations[metricName]?.[priority] || 'Consider optimizing this metric.';
-  };
 
   if (!insights) {
     return (
@@ -135,7 +135,8 @@ function InsightsPanel({ data }) {
       <Typography variant="h6" gutterBottom>
         Performance Insights
       </Typography>
-      
+
+
       <Card sx={{ mb: 3 }}>
         <CardContent>
           <Typography variant="subtitle1" fontWeight={600} gutterBottom>
@@ -221,7 +222,7 @@ function InsightsPanel({ data }) {
               const config = METRIC_DEFINITIONS[metricName];
               const isGood = metric.average <= config.threshold.good;
               const needsImprovement = metric.average <= config.threshold.needsImprovement;
-              
+
               return (
                 <Grid item xs={12} sm={6} md={3} key={metricName}>
                   <Box sx={{ textAlign: 'center', p: 2, border: '1px solid', borderColor: 'grey.300', borderRadius: 1 }}>

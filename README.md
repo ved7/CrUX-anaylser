@@ -1,6 +1,12 @@
-# Performance Analytics Dashboard
+# CrUX Performance Analytics Dashboard
 
 A simple web app to analyze website performance using Google Chrome UX Report data. Built with React and Node.js.
+
+# Start Backend
+cd backend && PORT=5001 node server.js
+
+# Start Frontend  
+cd frontend && npm start
 
 ## Features
 

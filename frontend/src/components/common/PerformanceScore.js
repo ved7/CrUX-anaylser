@@ -67,7 +67,7 @@ function PerformanceScore({ metrics, url }) {
                   backgroundColor: 'grey.200',
                   '& .MuiLinearProgress-bar': {
                     borderRadius: '50%',
-                    backgroundColor: getScoreColor(score) + '.main'
+                    backgroundColor: `${getScoreColor(score)}.main`
                   }
                 }}
               />
@@ -84,7 +84,7 @@ function PerformanceScore({ metrics, url }) {
                   flexDirection: 'column'
                 }}
               >
-                <Typography variant="h4" fontWeight={700} color={getScoreColor(score) + '.main'}>
+                <Typography variant="h4" fontWeight={700} color={`${getScoreColor(score)}.main`}>
                   {score}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
@@ -118,7 +118,7 @@ function PerformanceScore({ metrics, url }) {
                     sx={{ flex: 1, height: 6, borderRadius: 3 }}
                     color={getScoreColor(score)}
                   />
-                  <Typography variant="body2" fontWeight={600} color={getScoreColor(score) + '.main'}>
+                  <Typography variant="body2" fontWeight={600} color={`${getScoreColor(score)}.main`}>
                     {score}
                   </Typography>
                 </Box>

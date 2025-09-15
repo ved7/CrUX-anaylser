@@ -26,7 +26,7 @@
     "express",
     "material-ui"
   ],
-  "author": "Performance Analytics Team",
+  "author": "Performance Analytics",
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
